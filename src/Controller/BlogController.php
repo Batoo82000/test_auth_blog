@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Post;
+use App\Form\PostType;
 use App\Repository\PostRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,6 +21,20 @@ class BlogController extends AbstractController
             'posts'=> $posts
         ]);
     }
+    
+    #[Route('/blog/new-article', name:'blog_new')]
+    public function new(): Response
+    {
+        if(!$this->getUser()){
+            return $this->redirectToRoute('login_auth');
+        }
+
+        $post = new Post();
+        $form = $this->createForm(PostType::class);
+        return $this->render('blog/new.html.twig', [
+            'form'=> $form->createView()
+        ]);
+    }
 
     #[Route('/blog/{slug}', name:'blog_show')]
     public function show(Post $post): Response
@@ -28,4 +43,5 @@ class BlogController extends AbstractController
             'post'=> $post
         ]);
     }
+
 }

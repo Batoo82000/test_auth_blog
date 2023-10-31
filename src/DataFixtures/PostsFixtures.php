@@ -2,6 +2,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\Post;
+use App\DataFixtures\UserFixtures;
 use App\DataFixtures\CategoryFixtures;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -19,6 +20,7 @@ class PostsFixtures extends Fixture implements DependentFixtureInterface
             $post->setContent('test content');
             $post->setOnline(true);
             $post->setCategory($this->getReference('category-'.rand(0, 19)));
+            $post->setAuthor($this->getReference('user-'.rand(0, 19)));
             $manager->persist($post);
         }
 
@@ -28,7 +30,8 @@ class PostsFixtures extends Fixture implements DependentFixtureInterface
     public function getDependencies(): array
     {
         return [
-            CategoryFixtures::class
+            CategoryFixtures::class,
+            UserFixtures::class
         ];
     }
 }
