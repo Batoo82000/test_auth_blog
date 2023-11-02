@@ -19,8 +19,13 @@ class PostType extends AbstractType
             ->add('title', TextType::class)
             ->add('content', TextareaType::class)
             ->add('online', CheckboxType::class)
-            ->add('category',EntityType::class, )
-            ->add('author')
+            ->add('category',EntityType::class, [
+                'class'=>'App\Entity\Category'
+            ])
+            ->add('author', EntityType::class, [
+                'label'=>'Auteur',
+                'class'=> 'App\Entity\User'
+            ])
         ;
     }
 

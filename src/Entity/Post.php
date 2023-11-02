@@ -2,9 +2,10 @@
 
 namespace App\Entity;
 
-use App\Repository\PostRepository;
+use Cocur\Slugify\Slugify;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\PostRepository;
 
 #[ORM\Entity(repositoryClass: PostRepository::class)]
 class Post
@@ -59,6 +60,7 @@ class Post
     public function setTitle(string $title): static
     {
         $this->title = $title;
+        $this->setSlug((new Slugify())->slugify($this->title));
 
         return $this;
     }
